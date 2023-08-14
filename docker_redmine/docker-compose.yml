@@ -1,0 +1,57 @@
+# https://github.com/bitnami/containers/blob/main/bitnami/redmine/docker-compose.yml
+# redmine
+# login:user password:bitnami1
+# or
+# login:admin password:admin
+
+version: '3.8'
+
+services:
+  redmine:
+    image: ${IMAGE_REDMINE}
+    container_name: ${COMPOSE_PROJECT_NAME}-redmine
+    restart: always
+    ports:
+      - 8081:3000
+    volumes:
+      - ./redmine_data:/bitnami/redmine
+    environment:
+      ALLOW_EMPTY_PASSWORD: yes
+      REDMINE_DATABASE_HOST: db
+      REDMINE_DATABASE_PORT_NUMBER: 3306
+      REDMINE_DATABASE_USER: ${MARIADB_USER}
+      REDMINE_DATABASE_NAME: ${MARIADB_DATABASE}
+      REDMINE_SMTP_HOST: smtp.gmail.com
+      REDMINE_SMTP_PORT: 587
+      REDMINE_SMTP_USER: ${GMAIL_USER}
+      REDMINE_SMTP_PASSWORD: ${GMAIL_PASSWORD}
+      REDMINE_SMTP_AUTH: plain
+    networks:
+      ticketing-net:
+        ipv4_address: ${REDMINE_IP}
+    depends_on:
+      - db
+
+  db:
+    image: ${IMAGE_DB}
+    container_name: ${COMPOSE_PROJECT_NAME}-mariadb
+    restart: always
+    volumes:
+      - ./mariadb_data:/bitnami/mariadb
+    environment:
+      ALLOW_EMPTY_PASSWORD: yes
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+    networks:
+      ticketing-net:
+        ipv4_address: ${MARIADB_IP}
+
+networks:
+  ticketing-net:
+    driver: bridge
+    name: t-net
+    ipam:
+      driver: default
+      config:
+        - subnet: ${SUBNET}
+          gateway: ${DEFAULT_GATEWAY}

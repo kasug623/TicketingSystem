@@ -1,0 +1,5 @@
+python-redmine=2.4.0
+imapclient=2.3.1
+backports.ssl=0.0.9
+pyOpenSSL=23.2.0
+pyzmail36=1.0.5
