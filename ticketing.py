@@ -1,18 +1,14 @@
-import configparser
-from redminelib import Redmine
-from datetime import timezone
+import myRedmine
+import myEmail
 
-config_ini = configparser.ConfigParser()
-config_ini.read('config.ini', encoding='utf-8')
+# subject = myEmail.getEmail()
 
-redmine = Redmine(config_ini['Redmine']['URL'], key=config_ini['Redmine']['API'])
+# project = myRedmine.getRedmineProject('SOC')
 
-project = redmine.project.get('SOC')
+# redmine.issue.create(
+#     project_id='SOC',
+#     subject=subject,
+#     custom_fields=[{'id': 1, 'value': '偵察'}]
+# )
 
-redmine.issue.create(
-    project_id='SOC',
-    subject='test',
-    custom_fields=[{'id': 1, 'value': '偵察'}]
-)
-
-print(project.issues[0].subject)
+# print(project.issues[0].subject)
