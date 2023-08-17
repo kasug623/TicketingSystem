@@ -124,7 +124,7 @@ def getRedmineIdsFromEmail(client):
 
     return list(set(ids)) # 重複排除したリスト
 
-def sendEmail():
+def sendEmail(to, cc, subject, body):
     print("送りました")
 
 #getEmail()
